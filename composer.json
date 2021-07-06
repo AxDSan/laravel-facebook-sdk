@@ -1,13 +1,13 @@
 {
     "name": "axdsan/laravel-facebook-sdk",
-    "description": "Fully unit tested Facebook SDK v5 integration for Laravel 7.x",
+    "description": "Fully unit tested Facebook SDK v5 integration for Laravel 8.x",
     "keywords": ["facebook", "laravel", "lumen", "sdk", "facebook sdk v4", "facebook sdk v5"],
     "homepage": "https://github.com/AxDSan/laravel-facebook-sdk",
     "license": "MIT",
     "authors": [
         {
-            "name": "John Smith",
-            "email": "AxDSan@no-reply.github.com",
+            "name": "AxDSan",
+            "email": "AxDSan@users.noreply.github.com",
             "role": "Developer"
         }
     ],
