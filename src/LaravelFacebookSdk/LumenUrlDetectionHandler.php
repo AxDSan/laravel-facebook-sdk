@@ -1,4 +1,4 @@
-<?php namespace Scottybo\LaravelFacebookSdk;
+<?php namespace Axdsan\LaravelFacebookSdk;
 
 use Facebook\Url\UrlDetectionInterface;
 use Laravel\Lumen\Routing\UrlGenerator;
