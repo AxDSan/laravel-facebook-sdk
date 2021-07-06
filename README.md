@@ -1,14 +1,13 @@
 # Laravel Facebook SDK
 
-[![Build Status](https://img.shields.io/travis/scottybo/LaravelFacebookSdk.svg)](https://travis-ci.org/scottybo/LaravelFacebookSdk)
-[![Latest Stable Version](https://img.shields.io/packagist/v/scottybo/laravel-facebook-sdk.svg?maxAge=2592000)](https://packagist.org/packages/scottybo/laravel-facebook-sdk)
-[![Total Downloads](https://img.shields.io/packagist/dt/scottybo/laravel-facebook-sdk.svg)](https://packagist.org/packages/scottybo/laravel-facebook-sdk)
-[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/scottybo/LaravelFacebookSdk/blob/master/LICENSE)
-
+[![Build Status](https://img.shields.io/travis/axdsan/LaravelFacebookSdk.svg)](https://travis-ci.org/axdsan/LaravelFacebookSdk)
+[![Latest Stable Version](https://img.shields.io/packagist/v/axdsan/laravel-facebook-sdk.svg?maxAge=2592000)](https://packagist.org/packages/axdsan/laravel-facebook-sdk)
+[![Total Downloads](https://img.shields.io/packagist/dt/axdsan/laravel-facebook-sdk.svg)](https://packagist.org/packages/axdsan/laravel-facebook-sdk)
+[![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/axdsan/LaravelFacebookSdk/blob/master/LICENSE)
 
 A fully unit-tested package for easily integrating the [Facebook SDK v5](https://developers.facebook.com/docs/php/gettingstarted/5.0.0) into Laravel 6.
 
-----
+---
 
 - [Installation](#installation)
 - [User Login From Redirect Example](#user-login-from-redirect-example)
@@ -24,7 +23,6 @@ A fully unit-tested package for easily integrating the [Facebook SDK v5](https:/
 - [Credits](#credits)
 - [License](#license)
 
-
 ## Shouldn't I just use Laravel Socialite?
 
 Laravel 5 comes with support for [Socialite](http://laravel.com/docs/5.0/authentication#social-authentication) which allows you to authenticate with OAuth 2.0 providers. Facebook Login uses OAuth 2.0 and therefore Socialite supports Facebook Login.
@@ -34,20 +32,19 @@ If all you need is to authenticate an app and grab a user access token to pull b
 But if you need any of the following features, you'll want to tie in the Facebook PHP SDK with this package:
 
 - Obtaining an access token from the signed request in:
-    - [The cookie set by the Facebook JavaScript SDK](https://developers.facebook.com/docs/php/howto/example_access_token_from_javascript)
-    - [The `signed_request` param `POST`'ed to an app canvas](https://developers.facebook.com/docs/php/howto/example_access_token_from_canvas)
-    - [The `signed_request` param `POST`'ed to a Facebook page tab](https://developers.facebook.com/docs/php/howto/example_access_token_from_page_tab)
+  - [The cookie set by the Facebook JavaScript SDK](https://developers.facebook.com/docs/php/howto/example_access_token_from_javascript)
+  - [The `signed_request` param `POST`'ed to an app canvas](https://developers.facebook.com/docs/php/howto/example_access_token_from_canvas)
+  - [The `signed_request` param `POST`'ed to a Facebook page tab](https://developers.facebook.com/docs/php/howto/example_access_token_from_page_tab)
 - [Photo](https://developers.facebook.com/docs/php/howto/example_upload_photo) or [video uploads](https://developers.facebook.com/docs/php/howto/example_upload_video)
 - [Batch requests](https://developers.facebook.com/docs/php/howto/example_batch_request)
 - [Easy pagination](https://developers.facebook.com/docs/php/howto/example_pagination_basic)
 - [Getting Graph data returned as collections](https://developers.facebook.com/docs/php/GraphNode/5.0.0)
 
-
 ## Installation
 
 Add the Laravel Facebook SDK package to your `composer.json` file.
 
-    composer require scottybo/laravel-facebook-sdk
+    composer require axdsan/laravel-facebook-sdk
 
 > **Auto-discovery:** As of version **3.5.0**, the Laravel Facebook SDK supports [auto-discovery](https://medium.com/@taylorotwell/package-auto-discovery-in-laravel-5-5-ea9e3ab20518) for Laravel 5.5 and greater.
 
@@ -57,16 +54,15 @@ In your app config, add the `LaravelFacebookSdkServiceProvider` to the providers
 
 ```php
 'providers' => [
-    Scottybo\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
+    Axdsan\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
     ];
 ```
 
 For **Lumen**, add the provider to your `bootstrap/app.php` file.
 
 ```php
-$app->register(Scottybo\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class);
+$app->register(Axdsan\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class);
 ```
-
 
 ### Facade (optional)
 
@@ -74,12 +70,11 @@ If you want to make use of the facade, add it to the aliases array in your app c
 
 ```php
 'aliases' => [
-    'Facebook' => Scottybo\LaravelFacebookSdk\FacebookFacade::class,
+    'Facebook' => Axdsan\LaravelFacebookSdk\FacebookFacade::class,
     ];
 ```
 
 But there are [much better ways](#ioc-container) to use this package that [don't use facades](http://programmingarehard.com/2014/01/11/stop-using-facades.html).
-
 
 ### IoC container
 
@@ -87,30 +82,29 @@ The IoC container will automatically resolve the `LaravelFacebookSdk` dependenci
 
 ```php
 // Directly from the IoC
-$fb = App::make('Scottybo\LaravelFacebookSdk\LaravelFacebookSdk');
+$fb = App::make('Axdsan\LaravelFacebookSdk\LaravelFacebookSdk');
 // Or in PHP >= 5.5
-$fb = app(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk::class);
+$fb = app(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk::class);
 
 // From a constructor
 class FooClass {
-    public function __construct(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+    public function __construct(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
        // . . .
     }
 }
 
 // From a method
 class BarClass {
-    public function barMethod(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+    public function barMethod(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
        // . . .
     }
 }
 
 // Or even a closure
-Route::get('/facebook/login', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+Route::get('/facebook/login', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
     // . . .
 });
 ```
-
 
 ### Configuration File
 
@@ -121,13 +115,12 @@ Route::get('/facebook/login', function(Scottybo\LaravelFacebookSdk\LaravelFacebo
 After [creating an app in Facebook](https://developers.facebook.com/apps), you'll need to provide the app ID and secret. In Laravel you can publish the configuration file with `artisan`.
 
 ```bash
-$ php artisan vendor:publish --provider="Scottybo\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider" --tag="config"
+$ php artisan vendor:publish --provider="Axdsan\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider" --tag="config"
 ```
 
 > **Where's the file?** Laravel 5 will publish the config file to `/config/laravel-facebook-sdk.php`.
 
 In **Lumen** you'll need to manually copy the config file from `/src/config/laravel-facebook-sdk.php` to your config folder in your base project directory. Lumen doesn't have a `/config` folder by default so you'll need to create it if you haven't already.
-
 
 #### Required config values
 
@@ -140,20 +133,19 @@ FACEBOOK_APP_ID=1234567890
 FACEBOOK_APP_SECRET=SomeFooAppSecret
 ```
 
-
 ## User Login From Redirect Example
 
 Here's a full example of how you might log a user into your app using the [redirect method](#login-from-redirect).
 
-This example also demonstrates how to [exchange a short-lived access token with a long-lived access token](https://www.scottybo.me/access-token-handling-best-practices-in-facebook-php-sdk-v4) and save the user to your `users` table if the entry doesn't exist.
+-This example also demonstrates how to exchange a short-lived access token with a long-lived access token and save the user to your `users` table if the entry doesn't exist.-
 
 Finally it will log the user in using Laravel's built-in user authentication.
 
-> **Sessions in Lumen:** The "login from redirect" functionality relies on sessions to store a [CSRF token](https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet). Since sessions don't exist in Lumen 5.2+, you'll need to obtain an access token using a [different method](#facebook-login). For testing you can just grab an access token from the [Graph API Explorer](https://developers.facebook.com/tools/explorer/) (make sure to select your app from the "Application" drop down).
+> **Sessions in Lumen:** The "login from redirect" functionality relies on sessions to store a [CSRF token](<https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet>). Since sessions don't exist in Lumen 5.2+, you'll need to obtain an access token using a [different method](#facebook-login). For testing you can just grab an access token from the [Graph API Explorer](https://developers.facebook.com/tools/explorer/) (make sure to select your app from the "Application" drop down).
 
-``` php
+```php
 // Generate a login URL
-Route::get('/facebook/login', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb)
+Route::get('/facebook/login', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb)
 {
     // Send an array of permissions to request
     $login_url = $fb->getLoginUrl(['email']);
@@ -163,7 +155,7 @@ Route::get('/facebook/login', function(Scottybo\LaravelFacebookSdk\LaravelFacebo
 });
 
 // Endpoint that is redirected to after an authentication attempt
-Route::get('/facebook/callback', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb)
+Route::get('/facebook/callback', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb)
 {
     // Obtain an access token.
     try {
@@ -231,7 +223,6 @@ Route::get('/facebook/callback', function(Scottybo\LaravelFacebookSdk\LaravelFac
 
 For more details on the ways to authenticate a user, see [Facebook Login](#facebook-login).
 
-
 ## Making Requests To Facebook
 
 Requests to Facebook are made via the [Graph API](https://developers.facebook.com/docs/graph-api). This package is a Laravel wrapper for the official [Facebook PHP SDK v5](https://developers.facebook.com/docs/reference/php) so all the methods available to the official SDK are also available in this package.
@@ -253,7 +244,6 @@ printf('Hello, %s!', $userNode->getName());
 
 [See more about the `get()` method.](https://developers.facebook.com/docs/php/Facebook/5.0.0#get)
 
-
 ## Facebook Login
 
 When we say "log in with Facebook", we really mean "obtain a user access token to make calls to the Graph API on behalf of the user." This is done through Facebook via [OAuth 2.0](http://oauth.net/2/). There are a number of ways to log a user in with Facebook using what the Facbeook PHP SDK calls "[helpers](https://developers.facebook.com/docs/php/reference#helpers)".
@@ -265,7 +255,6 @@ The four supported login methods are:
 3. [Login From App Canvas](#login-from-app-canvas) (with signed request)
 4. [Login From Page Tab](#login-from-page-tab) (with signed request)
 
-
 ### Login From Redirect
 
 One of the most common ways to log a user into your app is by using a redirect URL.
@@ -274,17 +263,16 @@ The idea is that you generate a unique URL that the user clicks on. Once the use
 
 The redirect helper can be obtained using the SDK's `getRedirectLoginHelper()` method.
 
-
 #### Generating a login URL
 
 You can get a login URL just like you you do with the Facebook PHP SDK v5.
 
 ```php
-Route::get('/facebook/login', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+Route::get('/facebook/login', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
     $login_link = $fb
             ->getRedirectLoginHelper()
             ->getLoginUrl('https://exmaple.com/facebook/callback', ['email', 'user_events']);
-    
+
     echo '<a href="' . $login_link . '">Log in with Facebook</a>';
 });
 
@@ -306,7 +294,6 @@ $login_link = $fb->getLoginUrl(['email', 'user_status'], 'https://exmaple.com/fa
 $login_link = $fb->getLoginUrl(['email', 'user_status']);
 ```
 
-
 #### Obtaining an access token from a callback URL
 
 After the user has clicked on the login link from above and confirmed or denied the app permission requests, they will be redirected to the specified callback URL.
@@ -314,7 +301,7 @@ After the user has clicked on the login link from above and confirmed or denied 
 The standard "SDK" way to obtain an access token on the callback URL is as follows:
 
 ```php
-Route::get('/facebook/callback', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+Route::get('/facebook/callback', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
     try {
         $token = $fb
             ->getRedirectLoginHelper()
@@ -329,21 +316,20 @@ Route::get('/facebook/callback', function(Scottybo\LaravelFacebookSdk\LaravelFac
 There is a wrapper method for `getRedirectLoginHelper()->getAccessToken()` in LaravelFacebookSdk called `getAccessTokenFromRedirect()` that defaults the callback URL to the `laravel-facebook-sdk.default_redirect_uri` config value.
 
 ```php
-Route::get('/facebook/callback', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+Route::get('/facebook/callback', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
     try {
         $token = $fb->getAccessTokenFromRedirect();
     } catch (Facebook\Exceptions\FacebookSDKException $e) {
         // Failed to obtain access token
         dd($e->getMessage());
     }
-    
+
     // $token will be null if the user denied the request
     if (! $token) {
         // User denied the request
     }
 });
 ```
-
 
 ### Login From JavaScript
 
@@ -353,16 +339,16 @@ By default the JavaScript SDK will not set a cookie, so you have to explicitly e
 
 ```javascript
 FB.init({
-  appId      : 'your-app-id',
-  cookie     : true,
-  version    : 'v2.10'
+  appId: "your-app-id",
+  cookie: true,
+  version: "v2.10",
 });
 ```
 
 After you have logged a user in with the JavaScript SDK using [`FB.login()`](https://developers.facebook.com/docs/reference/javascript/FB.login), you can obtain a user access token from the signed request that is stored in the cookie that was set by the JavaScript SDK.
 
 ```php
-Route::get('/facebook/javascript', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+Route::get('/facebook/javascript', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
     try {
         $token = $fb->getJavaScriptHelper()->getAccessToken();
     } catch (Facebook\Exceptions\FacebookSDKException $e) {
@@ -378,7 +364,6 @@ Route::get('/facebook/javascript', function(Scottybo\LaravelFacebookSdk\LaravelF
 });
 ```
 
-
 ### Login From App Canvas
 
 > **TokenMismatchException:** Default Laravel installations will throw a `TokenMismatchException` when you try to view your app in Facebook. [See how to fix this issue](#getting-a-tokenmismatchexception-with-canvas-apps).
@@ -390,7 +375,7 @@ If your app lives within the context of a Facebook app canvas, you can obtain an
 Use the SDK's canvas helper to obtain the access token from the signed request data.
 
 ```php
-Route::match(['get', 'post'], '/facebook/canvas', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+Route::match(['get', 'post'], '/facebook/canvas', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
     try {
         $token = $fb->getCanvasHelper()->getAccessToken();
     } catch (Facebook\Exceptions\FacebookSDKException $e) {
@@ -405,7 +390,6 @@ Route::match(['get', 'post'], '/facebook/canvas', function(Scottybo\LaravelFaceb
 });
 ```
 
-
 ### Login From Page Tab
 
 > **TokenMismatchException:** Default Laravel installations will throw a `TokenMismatchException` when you try to view your page tab in Facebook. [See how to fix this issue](#getting-a-tokenmismatchexception-with-canvas-apps).
@@ -415,7 +399,7 @@ If your app lives within the context of a Facebook Page tab, that is the same as
 The SDK provides a Page tab helper to obtain an access token from the signed request data within the context of a Page tab.
 
 ```php
-Route::match(['get', 'post'], '/facebook/page-tab', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+Route::match(['get', 'post'], '/facebook/page-tab', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
     try {
         $token = $fb->getPageTabHelper()->getAccessToken();
     } catch (Facebook\Exceptions\FacebookSDKException $e) {
@@ -448,7 +432,6 @@ $rerequest_link = $fb->getReRequestUrl(['email'], 'https://exmaple.com/facebook/
 $rerequest_link = $fb->getReRequestUrl(['email']);
 ```
 
-
 ### Re-authentications
 
 [Re-authentications](https://developers.facebook.com/docs/facebook-login/reauthentication) force a user to confirm their identity by asking them to enter their Facebook account password again. This is useful for adding another layer of security before changing or view sensitive data on your web app.
@@ -462,7 +445,6 @@ $re_authentication_link = $fb->getReAuthenticationUrl(['email']);
 // Or without permissions
 $re_authentication_link = $fb->getReAuthenticationUrl();
 ```
-
 
 ## Saving the Access Token
 
@@ -481,7 +463,6 @@ $token = Session::get('facebook_access_token');
 $fb->setDefaultAccessToken($token);
 ```
 
-
 ## Saving data from Facebook in the database
 
 Saving data received from the Graph API to a database can sometimes be a tedious endeavor. Since the Graph API returns data in a predictable format, the `SyncableGraphNodeTrait` can make saving the data to a database a painless process.
@@ -489,7 +470,7 @@ Saving data received from the Graph API to a database can sometimes be a tedious
 Any Eloquent model that implements the `SyncableGraphNodeTrait` will have the `createOrUpdateGraphNode()` method applied to it. This method really makes it easy to take data that was returned directly from Facebook and create or update it in the local database.
 
 ```php
-use Scottybo\LaravelFacebookSdk\SyncableGraphNodeTrait;
+use Axdsan\LaravelFacebookSdk\SyncableGraphNodeTrait;
 
 class Event extends Eloquent {
     use SyncableGraphNodeTrait;
@@ -510,20 +491,19 @@ $event = Event::createOrUpdateGraphNode($eventNode);
 
 The `createOrUpdateGraphNode()` will automatically map the returned field names to the column names in your database. If, for example, your column names on the `events` table don't match the field names for an [Event](https://developers.facebook.com/docs/graph-api/reference/event) node, you can [map the fields](#field-mapping).
 
-
 ### Field Mapping
 
 Since the names of the columns in your database might not match the names of the fields of the Graph nodes, you can map the field names in your `User` model using the `$graph_node_field_aliases` static variable.
 
-The *keys* of the array are the names of the fields on the Graph node. The *values* of the array are the names of the columns in the local database.
+The _keys_ of the array are the names of the fields on the Graph node. The _values_ of the array are the names of the columns in the local database.
 
 ```php
-use Scottybo\LaravelFacebookSdk\SyncableGraphNodeTrait;
+use Axdsan\LaravelFacebookSdk\SyncableGraphNodeTrait;
 
 class User extends Eloquent implements UserInterface
 {
     use SyncableGraphNodeTrait;
-    
+
     protected static $graph_node_field_aliases = [
         'id' => 'facebook_user_id',
         'name' => 'full_name',
@@ -532,24 +512,22 @@ class User extends Eloquent implements UserInterface
 }
 ```
 
-
 ### Specifying "fillable" fields
 
 By default the `createOrUpdateGraphNode()` method will try to insert all the fields of a node into the database. But sometimes the Graph API will return fields that you didn't specifically ask for and don't exist in your database. In those cases we can white list specific fields with the `$graph_node_fillable_fields` property.
 
 ```php
-use Scottybo\LaravelFacebookSdk\SyncableGraphNodeTrait;
+use Axdsan\LaravelFacebookSdk\SyncableGraphNodeTrait;
 
 class Event extends Eloquent
 {
     use SyncableGraphNodeTrait;
-    
+
     protected static $graph_node_fillable_fields = ['id', 'name', 'start_time'];
 }
 ```
 
 > **Use the name of the database column.** For example, if you've aliased the `id` field to the `facebook_id` column in your databse, you'll want to specify `facebook_id` in your `$graph_node_fillable_fields` array.
-
 
 ### Nested field mapping
 
@@ -561,15 +539,15 @@ An example might be making a request to the `/me/events` endpoint and looping th
 {
   "data": [
     {
-      "id": "123", 
-      "name": "Foo Event", 
+      "id": "123",
+      "name": "Foo Event",
       "place": {
         "location": {
-          "city": "Dearborn", 
-          "state": "MI", 
-          "country": "United States", 
+          "city": "Dearborn",
+          "state": "MI",
+          "country": "United States",
           . . .
-        }, 
+        },
         "id": "827346"
       }
     },
@@ -595,12 +573,12 @@ Schema::create('events', function(Blueprint $table)
 Here's how you would map the nested fields to your database table in your `Event` model:
 
 ```php
-use Scottybo\LaravelFacebookSdk\SyncableGraphNodeTrait;
+use Axdsan\LaravelFacebookSdk\SyncableGraphNodeTrait;
 
 class Event extends Eloquent
 {
     use SyncableGraphNodeTrait;
-    
+
     protected static $graph_node_field_aliases = [
         'id' => 'facebook_id',
         'place.location.city' => 'city',
@@ -609,7 +587,6 @@ class Event extends Eloquent
     ];
 }
 ```
-
 
 ### Date formats
 
@@ -622,21 +599,19 @@ By default the `SyncableGraphNodeTrait` will convert all `DateTime` instances to
 That should the proper format for most cases on most relational databases. But this format is missing the timezone which might be important to your application. Furthermore if you're storing the date/time values in a different format, you'll want to customize the format that `DateTime` instances get converted to. To do this just add a `$graph_node_date_time_to_string_format` property to your model and set it to any [valid date format](http://php.net/manual/en/function.date.php).
 
 ```php
-use Scottybo\LaravelFacebookSdk\SyncableGraphNodeTrait;
+use Axdsan\LaravelFacebookSdk\SyncableGraphNodeTrait;
 
 class Event extends Eloquent
 {
     use SyncableGraphNodeTrait;
-    
+
     protected static $graph_node_date_time_to_string_format = 'c'; # ISO 8601 date
 }
 ```
 
-
 ## Logging The User Into Laravel
 
 The Laravel Facebook SDK makes it easy to log a user in with Laravel's built-in authentication driver.
-
 
 ### Updating The Users Table
 
@@ -701,7 +676,7 @@ Don't forget to add the [`SyncableGraphNodeTrait`](#saving-data-from-facebook-in
 
 ```php
 # User.php
-use Scottybo\LaravelFacebookSdk\SyncableGraphNodeTrait;
+use Axdsan\LaravelFacebookSdk\SyncableGraphNodeTrait;
 
 class User extends Eloquent implements UserInterface {
     use SyncableGraphNodeTrait;
@@ -710,40 +685,38 @@ class User extends Eloquent implements UserInterface {
 }
 ```
 
-
 ### Logging the user into Laravel
 
 After the user has logged in with Facebook and you've obtained the user ID from the Graph API, you can log the user into Laravel by passing the logged in user's `User` model to the `Auth::login()` method.
 
 ```php
 class FacebookController {
-    public function getUserInfo(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+    public function getUserInfo(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
        try {
            $response = $fb->get('/me?fields=id,name,email');
        } catch (Facebook\Exceptions\FacebookSDKException $e) {
            dd($e->getMessage());
        }
-       
+
        // Convert the response to a `Facebook/GraphNodes/GraphUser` collection
        $facebook_user = $response->getGraphUser();
-       
+
        // Create the user if it does not exist or update the existing entry.
        // This will only work if you've added the SyncableGraphNodeTrait to your User model.
        $user = App\User::createOrUpdateGraphNode($facebook_user);
-       
+
        // Log the user into Laravel
        Auth::login($user);
     }
 }
 ```
 
-
 ## Working With Multiple Apps
 
 If you have multiple Facebook apps that you'd like to use in the same script or you want to tweak the settings during runtime, you can create a new instance of `LaravelFacebookSdk` with the custom settings.
 
 ```php
-Route::get('/example', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
+Route::get('/example', function(Axdsan\LaravelFacebookSdk\LaravelFacebookSdk $fb) {
     // All the possible configuration options are available here
     $fb2 = $fb->newInstance([
       'app_id' => env('FACEBOOK_APP_ID2'),
@@ -753,7 +726,6 @@ Route::get('/example', function(Scottybo\LaravelFacebookSdk\LaravelFacebookSdk $
     ]);
 });
 ```
-
 
 ## Error Handling
 
@@ -775,13 +747,11 @@ try {
 
 The LaravelFacebookSdk does not throw any custom exceptions.
 
-
 ## Troubleshooting
-
 
 ### Getting a TokenMismatchException with canvas apps
 
-If your app is being served from within the context of an app canvas or Page tab, you'll likely see a `TokenMismatchException` error when you try to view the app on Facebook. This is because Facebook will render your app by sending a POST request to it with a `signed_request` param and since Laravel 5 has [CSRF](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection that is enabled for every non-read request, the error is triggered. 
+If your app is being served from within the context of an app canvas or Page tab, you'll likely see a `TokenMismatchException` error when you try to view the app on Facebook. This is because Facebook will render your app by sending a POST request to it with a `signed_request` param and since Laravel 5 has [CSRF](http://en.wikipedia.org/wiki/Cross-site_request_forgery) protection that is enabled for every non-read request, the error is triggered.
 
 Although it's possible to disable this feature completely, it's certainly not recommended as CSRF protection is an important security feature to have on your site and it should be enabled on every route by default.
 
@@ -884,21 +854,18 @@ This is because by default, strict mode is enabled which sets [`sql_mode` to inc
 
 The tests are written with `phpunit`. You can run the tests from the root of the project directory with the following command.
 
-``` bash
+```bash
 $ ./vendor/bin/phpunit
 ```
 
-
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/scottybo/LaravelFacebookSdk/blob/master/CONTRIBUTING.md) for details.
-
+Please see [CONTRIBUTING](https://github.com/AxDSan/LaravelFacebookSdk/blob/master/CONTRIBUTING.md) for details.
 
 ## Credits
 
-This package is maintained by [Scott Bowler](https://github.com/scottybo). See a [full list of contributors](https://github.com/scottybo/laravel-facebook-sdk/contributors).
-
+This package is maintained by [Scott Bowler](https://github.com/AxDSan). See a [full list of contributors](https://github.com/AxDSan/laravel-facebook-sdk/contributors).
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://github.com/scottybo/LaravelFacebookSdk/blob/master/LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/AxDSan/LaravelFacebookSdk/blob/master/LICENSE) for more information.
